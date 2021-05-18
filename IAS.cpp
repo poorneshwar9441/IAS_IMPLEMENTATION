@@ -91,85 +91,85 @@ public:
      {
 
     // Data Transfer Instructions
-         case(10):
+         case(10):// LOAD MQ
              this->AC = this->MQ;
              break;
-         case(9):
+         case(9):// LOAD MQ.M(X)
               this->MQ = Ram2[this->MBR];
               break;
 
-         case(33):
+         case(33):// STOR M(X)
               Ram2[this->MBR] = this->AC;
               break;
 
-         case(1):
+         case(1):// LOAD M(X)
               this->AC = Ram2[this->MBR];
               break;
 
-         case(2):
+         case(2):// LOAD -M(X)
               this->AC = Ram2[this->MBR]*-1;
               break;
 
-         case(3):
+         case(3)://LOAD |M(X)|
              this->AC = abs(Ram2[this->MBR]);
              break;
 
-         case(4):
+         case(4)://LOAD -|M(X)|
              this->AC = -1*abs(Ram2[this->MBR]);
              break;
 
       // Arthematic Instructions
-         case(5):
+         case(5)://ADD M(X)
             this->AC = this->AC+Ram2[this->MBR];
             break;
 
-         case(7):
+         case(7)://ADD |M(X)|
             this->AC = this->AC+abs(Ram2[this->MBR]);
             break;
 
-         case(6):
+         case(6)://SUB M(X)
             this->AC = this->AC-(Ram2[this->MBR]);
             break;
 
-         case(8):
+         case(8)://SUB |M(X)
             this->AC = this->AC - abs(Ram2[this->MBR]);
             break;
 
-         case(11):
+         case(11):// MUL M(X)
             this->AC = this->MQ * Ram2[this->MBR];
             break;
-
-         case(12):
+ 
+         case(12)://DIV M(X)
             this->AC = (this->AC)%(Ram2[this->MBR]);
             this->MQ = this->AC / Ram2[this->MBR];
             break;
 
-         case(20):
+         case(20):// LSH
             this->AC = this->AC *2;
             break;
 
-         case(21):
+         case(21)://RSH
             (this->AC) = (this->AC)/2;
-            break;
+            break; 
 
         // Unconditional_Branch
-         case(13): 
+         case(13): //JUMP M(X,0:19)
             (this->PC) = this->MBR;
              break;
 
-         case(14):
+         case(14)://JUMP M(X,20:39)
              (this->PC) = this->MBR;
               break;
 
         // conditional_Branch
-          case(15):
+          case(15):// JUMP + M(X,0:19) 
               if(this->AC > 0)
               {
                  this->PC = this->MBR;
               }
               break;
 
-          case(16):
+          case(16):// JUMP + M(X,20:39)
               if(this->AC > 0)
               {
                 this->PC = this->MBR;
