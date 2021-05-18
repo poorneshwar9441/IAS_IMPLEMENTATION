@@ -9,7 +9,7 @@ LOAD M(502)    // Incrementing the multiplyer
 ADD M(503)  
 STOR M(502)
 
-LOAD M(501)    // decrementing the count
+LOAD M(501)      // decrementing the count
 SUB M(503)
 STOR M(501)
 
