@@ -91,85 +91,85 @@ public:
      {
 
     // Data Transfer Instructions
-         case(10):// LOAD MQ
+         case(10):
              this->AC = this->MQ;
              break;
-         case(9):// LOAD MQ.M(X)
+         case(9):
               this->MQ = Ram2[this->MBR];
               break;
 
-         case(33):// STOR M(X)
+         case(33):
               Ram2[this->MBR] = this->AC;
               break;
 
-         case(1):// LOAD M(X)
+         case(1):
               this->AC = Ram2[this->MBR];
               break;
 
-         case(2):// LOAD -M(X)
+         case(2):
               this->AC = Ram2[this->MBR]*-1;
               break;
 
-         case(3)://LOAD |M(X)|
+         case(3):
              this->AC = abs(Ram2[this->MBR]);
              break;
 
-         case(4)://LOAD -|M(X)|
+         case(4):
              this->AC = -1*abs(Ram2[this->MBR]);
              break;
 
       // Arthematic Instructions
-         case(5)://ADD M(X)
+         case(5):
             this->AC = this->AC+Ram2[this->MBR];
             break;
 
-         case(7)://ADD |M(X)|
+         case(7):
             this->AC = this->AC+abs(Ram2[this->MBR]);
             break;
 
-         case(6)://SUB M(X)
+         case(6):
             this->AC = this->AC-(Ram2[this->MBR]);
             break;
 
-         case(8)://SUB |M(X)
+         case(8):
             this->AC = this->AC - abs(Ram2[this->MBR]);
             break;
 
-         case(11):// MUL M(X)
+         case(11):
             this->AC = this->MQ * Ram2[this->MBR];
             break;
- 
-         case(12)://DIV M(X)
+
+         case(12):
             this->AC = (this->AC)%(Ram2[this->MBR]);
             this->MQ = this->AC / Ram2[this->MBR];
             break;
 
-         case(20):// LSH
+         case(20):
             this->AC = this->AC *2;
             break;
 
-         case(21)://RSH
+         case(21):
             (this->AC) = (this->AC)/2;
-            break; 
+            break;
 
         // Unconditional_Branch
-         case(13): //JUMP M(X,0:19)
+         case(13): 
             (this->PC) = this->MBR;
              break;
 
-         case(14)://JUMP M(X,20:39)
+         case(14):
              (this->PC) = this->MBR;
               break;
 
         // conditional_Branch
-          case(15):// JUMP + M(X,0:19) 
+          case(15):
               if(this->AC > 0)
               {
                  this->PC = this->MBR;
               }
               break;
 
-          case(16):// JUMP + M(X,20:39)
+          case(16):
               if(this->AC > 0)
               {
                 this->PC = this->MBR;
@@ -183,10 +183,10 @@ public:
 
 };
 
-int main(int argv,char const *s[])
-{ 
-  
-// program to calculate factorial of a given number
+void load_program() // loads the program to Ram
+{
+
+  // program to find factorial of number at memory location 501
   Ram[0][0] = 9;
   Ram[0][1] = 502;
   Ram[0][2] = 11;
@@ -216,10 +216,16 @@ int main(int argv,char const *s[])
   Ram[5][1] = 0;
 
   Ram2[600] = 1;
-  Ram2[501] = 10; // number to find factorial
+  Ram2[501] = 7; // number to find factorial
   Ram2[502] = 1;
   Ram2[503] = 1;
-// end
+}
+
+int main(int argv,char const *s[])
+{ 
+  
+  load_program();
+
 
   Cpu c;
   c.initiliaze();
