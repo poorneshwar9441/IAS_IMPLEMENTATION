@@ -1,0 +1,25 @@
+
+factoraial(x):
+
+LOAD MQ M(502)  
+MUL M(600)     // multiplying the answer with multiplyer
+STOR M(600)   
+
+LOAD M(502)    // Incrementing the multiplyer
+ADD M(503)  
+STOR M(502)
+
+LOAD M(501)    // decrementing the count
+SUB M(503)
+STOR M(501)
+
+
+LOAD M(501)  // jump if count is greater than 0;
+JUMP+ 1
+
+// data in the Ram(variables)
+
+M(600) -> Ans = 1;
+M(501) -> 5 // count
+M(502) -> 1 // multiplier 
+M(503) -> 1 // ADDER
