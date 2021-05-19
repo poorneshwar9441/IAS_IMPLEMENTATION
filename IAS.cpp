@@ -2,15 +2,11 @@
 #include<vector>
 #include<algorithm>
 #include<stdlib.h>
+#include "Program_loader.h"
+
 using namespace std;
 
 typedef long long int ll;
-
-
-ll Ram[1000][4]; // Ram locations 0-499 reserved for Instrutions
-ll Ram2[1000];   // Ram locations 500-999 reserverd for data
-
-
 
 /**
  
@@ -69,7 +65,7 @@ public:
 
      ll current_PC = this->PC;
 
-    if((this->PREV_IR != 14) && (this->PREV_IR != 16))
+    if((this->PREV_IR != 14) && ((this->PREV_IR != 16) || (this->AC <=0)))
     { 
       execute(); 
     }
@@ -79,11 +75,14 @@ public:
      this->IR = IBR[0];
      this->MBR = IBR[1];
      execute();     //Right instruction;
-     this->PC += 1;
+     if((this->IR != 13) && (this->IR != 14) && ((this->IR != 15) || (this->AC<=0)) && ((this->IR != 16) || (this->AC <= 0)))
+     {
+       this->PC += 1;
+     }
     }
     this->PREV_IR = this->IR;
-     
-  }
+  }  
+
   void execute()
   { 
 
@@ -175,52 +174,10 @@ public:
                 this->PC = this->MBR;
               }
               break;
-
-
      }
-
   }
 
 };
-
-void load_program() // loads the program to Ram
-{
-
-  // program to find factorial of number at memory location 501
-  Ram[0][0] = 9;
-  Ram[0][1] = 502;
-  Ram[0][2] = 11;
-  Ram[0][3] = 600;
-
-  Ram[1][0] = 33;
-  Ram[1][1] = 600;
-  Ram[1][2] = 1;
-  Ram[1][3] = 502;
-
-  Ram[2][0] = 5;
-  Ram[2][1] = 503;
-  Ram[2][2] = 33;
-  Ram[2][3] = 502;
-
-  Ram[3][0] = 1;
-  Ram[3][1] = 501;
-  Ram[3][2] = 6;
-  Ram[3][3] = 503;
-
-  Ram[4][0] = 33;
-  Ram[4][1] = 501;
-  Ram[4][2] = 1;
-  Ram[4][3] = 501;
-
-  Ram[5][0] = 15;
-  Ram[5][1] = 0;
-
-  Ram2[600] = 1;
-  Ram2[501] = 7; // number to find factorial
-  Ram2[502] = 1;
-  Ram2[503] = 1;
-}
-
 int main(int argv,char const *s[])
 { 
   
@@ -228,18 +185,20 @@ int main(int argv,char const *s[])
 
 
   Cpu c;
-  c.initiliaze();
-  //cout << c.PC << endl;
+  c.initiliaze(); // initilizes all the registers
+  
   while(c.PC < 500)
   {
     cout << "PC:" <<c.PC  << " ";
     cout << "AC:" <<c.AC  << " ";
-    cout << "MQ:" <<c.MQ << " ";
+    cout << "MQ:" <<c.MQ << "  ";
+    cout << "FIB : " << Ram2[700] << " ";
+    cout << "FIB2: " << Ram2[701] << "  ";
+    cout << "FIB3:  " << Ram2[800] << "  ";
+    //cout << "Counter " << Ram2[802] << " ";
     cout << "Ram2: "<< Ram2[600] << "  " << endl;
     c.decode();
-
-  //cout << "hello" << endl;
-
-}
-cout << Ram2[600] << endl;
+  }
+  cout << "factorial:" << " " << Ram2[600] << endl;
+  cout << "fibonanci:" << " " << Ram2[700] << endl;
 }
