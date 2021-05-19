@@ -9,7 +9,7 @@ LOAD M(502)    // Incrementing the multiplyer
 ADD M(503)  
 STOR M(502)
 
-LOAD M(501)      // decrementing the count
+LOAD M(501)    // decrementing the count
 SUB M(503)
 STOR M(501)
 
@@ -23,3 +23,34 @@ M(600) -> Ans = 1;
 M(501) -> 5 // count
 M(502) -> 1 // multiplier 
 M(503) -> 1 // ADDER
+
+
+
+Fibonanci sequence(n): // program to compute nth fibonanci number
+LOAD M(700)
+ADD M(701) // z = x+y;
+STOR M(800)
+
+LOAD M(701) // x = y
+STOR M(700) 
+
+LOAD M(800) // y = z;
+STOR M(701) 
+
+LOAD M(802) // count += 1;
+ADD M(803)
+STOR M(802)
+
+LOAD M(801)
+SUB M(802) // acc = number - count
+
+JUMP+ 1;
+
+
+// --data in the ram --- //
+Ram(700) -> 1 // x;
+Ram(701) -> 1 // y;
+Ram(800) -> Z
+Ram(801) -> 20(NUMBER)
+Ram(802) -> 1(count)
+Ram(803) -> 1 // incrementer
