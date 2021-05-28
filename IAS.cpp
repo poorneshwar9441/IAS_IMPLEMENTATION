@@ -10,7 +10,7 @@ typedef long long int ll;
 
 /**
  
-[[op,data, op, data]] structure of instruction [op data]
+[[op,data, op, data]] structure of instruction
  
 
 **/
@@ -55,19 +55,19 @@ public:
 
 
   }
-  void decode()
+  void decode_and_execute()
   { 
-
+     // Fetching to registers
      this->IR = ::Ram[(this->PC)][0];//left opcode
-     this->MBR = ::Ram[this->PC][1];//left d ata  
+     this->MBR = ::Ram[this->PC][1];//left data  
      this->IBR[0] = ::Ram[this->PC][2];// Rightopcode
      this->IBR[1] = ::Ram[this->PC][3];//Right data;
 
      ll current_PC = this->PC;
 
-    if((this->PREV_IR != 14) && ((this->PREV_IR != 16) || (this->AC <=0)))
+    if((this->PREV_IR != 14) && ((this->PREV_IR != 16) || (this->AC <0)))
     { 
-      execute(); 
+      execute(); // LEFT instruction
     }
     if(this->PC == current_PC)
     { 
@@ -75,7 +75,7 @@ public:
      this->IR = IBR[0];
      this->MBR = IBR[1];
      execute();     //Right instruction;
-     if((this->IR != 13) && (this->IR != 14) && ((this->IR != 15) || (this->AC<=0)) && ((this->IR != 16) || (this->AC <= 0)))
+     if((this->IR != 13) && (this->IR != 14) && ((this->IR != 15) || (this->AC<0)) && ((this->IR != 16) || (this->AC < 0)))
      {
        this->PC += 1;
      }
@@ -162,14 +162,14 @@ public:
 
         // conditional_Branch
           case(15):
-              if(this->AC > 0)
+              if(this->AC >= 0)
               {
                  this->PC = this->MBR;
               }
               break;
 
           case(16):
-              if(this->AC > 0)
+              if(this->AC >= 0)
               {
                 this->PC = this->MBR;
               }
@@ -181,7 +181,7 @@ public:
 int main(int argv,char const *s[])
 { 
   
-  load_program();
+  Read_file();
 
 
   Cpu c;
@@ -189,16 +189,22 @@ int main(int argv,char const *s[])
   
   while(c.PC < 500)
   {
-    cout << "PC:" <<c.PC  << " ";
-    cout << "AC:" <<c.AC  << " ";
+    cout << "PC:" <<c.PC  << "  ";
+    cout << "AC:" <<c.AC  << "  ";
     cout << "MQ:" <<c.MQ << "  ";
-    cout << "FIB : " << Ram2[700] << " ";
-    cout << "FIB2: " << Ram2[701] << "  ";
-    cout << "FIB3:  " << Ram2[800] << "  ";
-    //cout << "Counter " << Ram2[802] << " ";
-    cout << "Ram2: "<< Ram2[600] << "  " << endl;
-    c.decode();
+    cout << "FIB(Mem700): " << Ram2[700] << "  ";
+    cout << "Mem[701]: " << Ram2[701] << "  ";
+    cout << "Mem[800]: " << Ram2[800] << "  ";
+    cout << "Factorial(Mem600): "<< Ram2[600] << "  ";
+    cout << "Mem501: " << Ram2[501] << " ";
+    cout << "Mem502: " << Ram2[502] << " ";
+    cout << "quotient(Mem752): " << Ram2[752] << "  ";
+    cout << "Remainder(Mem750): " << Ram2[750] << "  ";
+    cout << endl;
+    c.decode_and_execute();
   }
-  cout << "factorial:" << " " << Ram2[600] << endl;
-  cout << "fibonanci:" << " " << Ram2[700] << endl;
+  cout << "factorial(Mem600):" << " " << Ram2[600] << endl;
+  cout << "fibonanci(Mem700):" << " " << Ram2[700] << endl;
+  cout << "quotient(Mem752) : " << Ram2[752] << endl;
+  cout << "Remainder(Mem750): " << Ram2[750] << endl;
 }
